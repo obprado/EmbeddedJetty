@@ -9,12 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Created by Omar on 20/07/16.
- */
-public class EntryPoint {
+public class ExampleApp {
 
     public static void main(String[] args) throws Exception {
+        new ExampleApp().run();
+    }
+
+    private void run() throws Exception {
         int defaultPort = 8080;
         int adminPort = 9999;
         Server server = new Server();
@@ -25,7 +26,7 @@ public class EntryPoint {
         server.join();
     }
 
-    private static ServletContextHandler helloServletHandler() {
+    private ServletContextHandler helloServletHandler() {
         ServletContextHandler servletHandler = new ServletContextHandler();
         servletHandler.addServlet(new ServletHolder(new HelloWorldHttpServlet()), "/hello");
         return servletHandler;
@@ -36,10 +37,9 @@ public class EntryPoint {
         protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             response.getWriter().write("Hello from a servlet!!!!");
         }
-
     }
 
-    private static ServerConnector serverConnector(int port, Server server) {
+    private ServerConnector serverConnector(int port, Server server) {
         ServerConnector connector = new ServerConnector(server);
         connector.setPort(port);
         return connector;
