@@ -11,19 +11,24 @@ import java.io.IOException;
 
 public class ExampleApp {
 
+    private Server server;
+
     public static void main(String[] args) throws Exception {
         new ExampleApp().run();
     }
 
-    private void run() throws Exception {
+    void run() throws Exception {
         int defaultPort = 8080;
         int adminPort = 9999;
-        Server server = new Server();
+        server = new Server();
         server.addConnector(serverConnector(defaultPort, server));
         server.addConnector(serverConnector(adminPort, server));
         server.setHandler(helloServletHandler());
         server.start();
-        server.join();
+    }
+
+    void stop() throws Exception {
+        server.stop();
     }
 
     private ServletContextHandler helloServletHandler() {
