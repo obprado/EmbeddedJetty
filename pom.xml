@@ -57,6 +57,11 @@
         </dependency>
 
     </dependencies>
-
+    <repositories>
+        <repository>
+            <id>bodarRepo</id>
+            <url>http://repo.bodar.com/</url>
+        </repository>
+    </repositories>
 
 </project>
