@@ -41,6 +41,20 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <!-- This is to make yatspec sequence diagram generator happy -->
+            <groupId>org.jdom</groupId>
+            <artifactId>jdom</artifactId>
+            <version>1.1.3</version>
+        </dependency>
+        <dependency>
+            <!-- This is to make yatspec sequence diagram generator happy -->
+            <groupId>net.sourceforge.plantuml</groupId>
+            <artifactId>plantuml</artifactId>
+            <version>8039</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- AssertJ assertions library, used for its fluent -->
         <dependency>
             <groupId>org.assertj</groupId>
