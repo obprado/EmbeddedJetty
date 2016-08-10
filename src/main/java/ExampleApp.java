@@ -34,6 +34,7 @@ public class ExampleApp {
     private ServletContextHandler helloServletHandler() {
         ServletContextHandler servletHandler = new ServletContextHandler();
         servletHandler.addServlet(new ServletHolder(new HelloWorldHttpServlet()), "/hello");
+        servletHandler.addServlet(new ServletHolder(new StarWarsCharacterHttpServlet()), "/starWarsCharacter");
         return servletHandler;
     }
 
