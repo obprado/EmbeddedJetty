@@ -7,7 +7,7 @@ import static acceptancetests.Thens.theStatusCode;
 import static acceptancetests.Whens.weMakeAGetRequestTo;
 import static org.hamcrest.core.Is.is;
 
-public class AcceptanceTest extends AbstractAcceptanceTest {
+public class HelloWorldTest extends AbstractAcceptanceTest {
 
     @Test
     public void shouldReturnHelloWorld() throws Exception {
