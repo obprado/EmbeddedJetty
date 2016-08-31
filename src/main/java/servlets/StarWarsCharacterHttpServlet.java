@@ -20,7 +20,7 @@ public class StarWarsCharacterHttpServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        CloseableHttpResponse lukeResponse = getRequestTo("http://swapi.co/api/people/1/");
+        CloseableHttpResponse lukeResponse = getRequestTo("http://localhost:8888/api/people/1/");
         DocumentContext lukeJsonDocument = JsonPath.parse(EntityUtils.toString(lukeResponse.getEntity()));
 
         String lukeName = lukeJsonDocument.read("$.name");
