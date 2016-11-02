@@ -1,14 +1,31 @@
 package acceptancetests;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
-import com.github.tomakehurst.wiremock.matching.UrlPattern;
+import com.github.tomakehurst.wiremock.http.Request;
+import com.github.tomakehurst.wiremock.http.Response;
 import com.googlecode.yatspec.state.givenwhenthen.GivensBuilder;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlMatching;
 
 public class Givens {
+    private AbstractAcceptanceTest abstractAcceptanceTest;
 
-    public static GivensBuilder theStarWarsServiceKnowsAboutLuke() {
+    public Givens(AbstractAcceptanceTest abstractAcceptanceTest) {
+        this.abstractAcceptanceTest = abstractAcceptanceTest;
+    }
+
+    private void registerListener() {
+        abstractAcceptanceTest.listenToWiremock(this::recordTraffic);
+    }
+
+    private void recordTraffic(Request request, Response response) {
+        abstractAcceptanceTest.addToCapturedInputsAndOutputs("request from helloWorldApp to swapi", request);
+        abstractAcceptanceTest.addToCapturedInputsAndOutputs("response from swapi to helloWorldApp", response);
+    }
+
+    public GivensBuilder knowsAboutLuke() {
+        registerListener();
         return interestingGivens -> {
             WireMock wiremock = new WireMock(8888);
             wiremock.register(

@@ -3,6 +3,7 @@ package acceptancetests;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import com.github.tomakehurst.wiremock.client.WireMock;
+import com.github.tomakehurst.wiremock.http.RequestListener;
 import com.github.tomakehurst.wiremock.matching.AnythingPattern;
 import com.github.tomakehurst.wiremock.matching.UrlPattern;
 import com.googlecode.yatspec.junit.SpecResultListener;
@@ -61,4 +62,13 @@ public abstract class AbstractAcceptanceTest extends TestState implements WithCu
                 .withCustomHeaderContent(SequenceDiagramGenerator.getHeaderContentForModalWindows())
                 .withCustomRenderer(SvgWrapper.class, new DontHighlightRenderer<>()));
     }
+
+    public void addToCapturedInputsAndOutputs(String key, Object capturedStuff){
+        testState().capturedInputAndOutputs.add(key, capturedStuff);
+    }
+
+    public void listenToWiremock(RequestListener listener){
+        wireMockServer.addMockServiceRequestListener(listener);
+    }
+
 }
