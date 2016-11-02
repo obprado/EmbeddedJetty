@@ -9,12 +9,16 @@ import static org.hamcrest.core.Is.is;
 
 public class StarWarsTest extends AbstractAcceptanceTest {
 
+    private final TestState testState = new TestState();
+    private final Whens weMake = new Whens(testState);
+    private final Thens the = new Thens(testState);
+
     @Test
     public void shouldTalkAboutLukeSkywalkerByDefault() throws Exception {
         given(theStarWarsServiceKnowsAboutLuke());
-        when(weMakeAGetRequestTo("http://localhost:8080/starWarsCharacter"));
-        then(theStatusCode(), is(200));
-        then(theBody(), is("{\"Description\": \"Luke Skywalker is a Human from Tatooine\"}"));
+        when(weMake.aGetRequestTo("http://localhost:8080/starWarsCharacter"));
+        then(the.statusCode(), is(200));
+        then(the.body(), is("{\"Description\": \"Luke Skywalker is a Human from Tatooine\"}"));
     }
 
 }

@@ -6,12 +6,18 @@ import org.apache.http.util.EntityUtils;
 
 public class Thens {
 
-    public static StateExtractor<Integer> theStatusCode() {
-        return capturedInputAndOutputs ->
-                capturedInputAndOutputs.getType("response", HttpResponse.class).getStatusLine().getStatusCode();
+    private TestState testState;
+
+    public Thens(TestState testState) {
+        this.testState = testState;
     }
 
-    public static StateExtractor<String> theBody() {
-        return capturedInputAndOutputs -> EntityUtils.toString(capturedInputAndOutputs.getType("response", HttpResponse.class).getEntity());
+    public StateExtractor<Integer> statusCode() {
+        return capturedInputAndOutputs ->
+                ((HttpResponse)testState.get("response")).getStatusLine().getStatusCode();
+    }
+
+    public StateExtractor<String> body() {
+        return capturedInputAndOutputs -> EntityUtils.toString(((HttpResponse)testState.get("response")).getEntity());
     }
 }
