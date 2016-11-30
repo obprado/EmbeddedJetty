@@ -8,7 +8,8 @@ import com.googlecode.yatspec.state.givenwhenthen.GivensBuilder;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlMatching;
 
-public class Givens {
+class Givens {
+    private static final String THIRD_PARTY_NAME = "swapi";
     private AbstractAcceptanceTest abstractAcceptanceTest;
 
     public Givens(AbstractAcceptanceTest abstractAcceptanceTest) {
@@ -20,8 +21,7 @@ public class Givens {
     }
 
     private void recordTraffic(Request request, Response response) {
-        abstractAcceptanceTest.addToCapturedInputsAndOutputs("request from helloWorldApp to swapi", request);
-        abstractAcceptanceTest.addToCapturedInputsAndOutputs("response from swapi to helloWorldApp", response);
+        abstractAcceptanceTest.recordTraffic(request, response, AbstractAcceptanceTest.APPLICATION_NAME, THIRD_PARTY_NAME);
     }
 
     public GivensBuilder knowsAboutLuke() {

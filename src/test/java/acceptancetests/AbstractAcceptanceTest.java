@@ -1,15 +1,19 @@
 package acceptancetests;
 
+import acceptancetests.yatspec.ByNamingConventionMessageProducer;
+import acceptancetests.yatspec.RequestAndResponsesFormatter;
+import acceptancetests.yatspec.RequestResponse;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import com.github.tomakehurst.wiremock.client.WireMock;
+import com.github.tomakehurst.wiremock.http.Request;
 import com.github.tomakehurst.wiremock.http.RequestListener;
+import com.github.tomakehurst.wiremock.http.Response;
 import com.github.tomakehurst.wiremock.matching.AnythingPattern;
 import com.github.tomakehurst.wiremock.matching.UrlPattern;
 import com.googlecode.yatspec.junit.SpecResultListener;
 import com.googlecode.yatspec.junit.SpecRunner;
 import com.googlecode.yatspec.junit.WithCustomResultListeners;
-import com.googlecode.yatspec.plugin.sequencediagram.ByNamingConventionMessageProducer;
 import com.googlecode.yatspec.plugin.sequencediagram.SequenceDiagramGenerator;
 import com.googlecode.yatspec.plugin.sequencediagram.SvgWrapper;
 import com.googlecode.yatspec.rendering.html.DontHighlightRenderer;
@@ -20,13 +24,15 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import server.ExampleApp;
 
+import static acceptancetests.yatspec.YatspecFormatters.toYatspecString;
 import static java.util.Collections.singletonList;
 
 @RunWith(SpecRunner.class)
 public abstract class AbstractAcceptanceTest extends TestState implements WithCustomResultListeners {
-
+    static final String APPLICATION_NAME = "star wars app";
     private static final int WIREMOCK_PORT = 8888;
     private ExampleApp exampleApp = new ExampleApp();
+    private final RequestAndResponsesFormatter requestAndResponsesFormatter = new RequestAndResponsesFormatter();
     private WireMockServer wireMockServer;
 
     @Before
@@ -46,6 +52,16 @@ public abstract class AbstractAcceptanceTest extends TestState implements WithCu
     private void startWiremock() {
         wireMockServer = new WireMockServer(WIREMOCK_PORT);
         wireMockServer.start();
+    }
+
+    public void recordTraffic(Request request, Response response, String sourceApplication, String destinyApplication) {
+        RequestResponse requestResponse = requestResponse(sourceApplication, destinyApplication);
+        addToCapturedInputsAndOutputs(requestResponse.request(), toYatspecString(request));
+        addToCapturedInputsAndOutputs(requestResponse.response(), toYatspecString(response));
+    }
+
+    public RequestResponse requestResponse(String from, String to) {
+        return requestAndResponsesFormatter.requestResponse(from, to);
     }
 
     private void primeDefaultWiremockMessage() {

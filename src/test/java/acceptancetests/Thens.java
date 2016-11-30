@@ -1,8 +1,7 @@
 package acceptancetests;
 
 import com.googlecode.yatspec.state.givenwhenthen.StateExtractor;
-import org.apache.http.HttpResponse;
-import org.apache.http.util.EntityUtils;
+import httpclient.Response;
 
 public class Thens {
 
@@ -14,10 +13,10 @@ public class Thens {
 
     public StateExtractor<Integer> statusCode() {
         return capturedInputAndOutputs ->
-                ((HttpResponse)testState.get("response")).getStatusLine().getStatusCode();
+                ((Response)testState.get("response")).getStatusCode();
     }
 
     public StateExtractor<String> body() {
-        return capturedInputAndOutputs -> EntityUtils.toString(((HttpResponse)testState.get("response")).getEntity());
+        return capturedInputAndOutputs -> ((Response)testState.get("response")).getBody();
     }
 }
